@@ -1,13 +1,13 @@
+var http = require('http');
 var express = require('express');
 var schedule = require('node-schedule');
 
 const app = express();
 
-let harleyMorning: boolean = false;
-let harleyEvening: boolean = false;
+var harleyMorning: boolean = false;
+var harleyEvening: boolean = false;
 
-let port: number = 3000;
-
+var port: number = 3000;
 
 app.use(express.json());
 
@@ -15,14 +15,14 @@ app
 .get('/api/harley/morning', (req: Request, res: any) => {
     console.log('morning GET');
     res.json({
-        'morning':harleyMorning,
+        'IsFed':harleyMorning,
         'type':req.method,
     });
 })
 .post('/api/harley/evening', (req: Request, res: any) => {
     harleyEvening = true;
     res.json({
-        'evening':harleyEvening,
+        'IsFed':harleyEvening,
         'type':req.method
     });
 });
@@ -57,10 +57,14 @@ schedule.scheduleJob('59 59 23 * * *', function(){
     harleyEvening = false;
 });
 
-
-const server = app.listen(port, () =>{
-    console.log(`Running on port ${port}`);
+const server = http.createServer(function(req:Request, res:any) {
+    app(req, res);
 });
+
+server.listen(port, () => {
+    console.log(`Running on http on port: ${port}`);
+});
+
 
 server.on('error', (error: { code: string; }) => {
     if (error.code === 'EADDRINUSE'){
