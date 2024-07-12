@@ -15,30 +15,30 @@ app
 .get('/api/harley/morning', (req: Request, res: any) => {
     console.log('morning GET');
     res.json({
-        'IsFed':harleyMorning,
-        'type':req.method,
+        'IsFed':harleyMorning
     });
 })
-.post('/api/harley/evening', (req: Request, res: any) => {
-    harleyEvening = true;
+.post(
+    '/api/harley/morning', (req: Request, res: any) => {
+    harleyMorning = true;
+    console.log("morning POST")
     res.json({
-        'IsFed':harleyEvening,
-        'type':req.method
+        'IsFed':harleyMorning
     });
 });
 
 app
 .get('/api/harley/evening', (req: Request, res: any) => {
+    console.log("evening GET");
     res.json({
-        'evening':harleyEvening,
-        'type':req.method
+        'IsFed':harleyEvening
     });
 })
-.post('/api/harley/morning', (req: Request, res: any) => {
-    harleyMorning = true;
+.post('/api/harley/evening', (req: Request, res: any) => {
+    harleyEvening = true;
+    console.log("evening POST");
     res.json({
-        'morning':harleyMorning,
-        'type':req.method
+        'IsFed':harleyEvening
     });
 });
 
